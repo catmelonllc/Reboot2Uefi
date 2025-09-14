@@ -6,7 +6,7 @@ This directory contains a collection of scripts designed to reboot a Linux syste
 
 There are two primary ways to reboot to UEFI from within Linux, and these scripts cover both:
 
-1.  **`systemctl` (for systemd users):** Modern Linux distributions using the `systemd` init system have a built-in command for this. The `reboot_firmware_systemd.sh` script uses this native method.
+1.  **`systemctl` (for systemd users):** Most Modern Linux distributions Have systemd. (e.g debian, fedora ect) using the `systemd` init system have a built-in command for this. The `reboot_firmware_systemd.sh` script uses this native method.
 2.  **`efibootmgr` (for everyone else):** For systems that do not use `systemd` (like those running OpenRC, Runit, etc.), the `efibootmgr` utility can be used. This tool directly tells the UEFI firmware to boot into the setup menu on the next restart. All other scripts in this directory use this method.
 
 ## Universal Requirements
