@@ -28,8 +28,7 @@ Follow these steps exactly to ensure the script runs correctly.
     ![Run as Administrator](https://copyparty.blahaj.dedyn.io/images/IMG_3277.png)
 
 4.  **Approve the UAC Prompt:** Windows will show a User Account Control (UAC) prompt asking, "Do you want to allow this app to make changes to your device?" This is completely normal. it will not change your system, only reboot it into UEFI. Click **Yes**.
-![UAC]
-(https://copyparty.blahaj.dedyn.io/images/IMG_3278.png)
+![UAC](https://copyparty.blahaj.dedyn.io/images/IMG_3278.png)
 
 6.  **Countdown and Reboot:** A black command prompt window will appear with a message. It will begin a 15-second countdown, after which your computer will automatically restart and boot directly into the UEFI firmware settings menu.
 
