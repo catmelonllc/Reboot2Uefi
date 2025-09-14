@@ -15,7 +15,7 @@ For this script to work, your system **must** meet two conditions:
 
 ---
 
-## Step-by-Step Instructions
+## Step-by-Step Instructions (assuming you downloaded the .bat file)
 
 Follow these steps exactly to ensure the script runs correctly.
 
