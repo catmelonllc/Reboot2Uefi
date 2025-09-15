@@ -1,19 +1,66 @@
 # Linux Reboot to UEFI Scripts
 
-These scripts reboot a Linux system directly into its UEFI firmware setup screen. The scripts are identical; they are named for different init systems for organizational convenience only.
+This directory contains a collection of scripts designed to reboot a Linux system directly into its UEFI firmware setup screen.
 
-## Requirements
-1.  **UEFI System**: Your computer must use UEFI firmware, not a legacy BIOS.
-2.  **`efibootmgr`**: The `efibootmgr` utility must be installed. If it's not, the script will tell you. You can install it via your package manager (e.g., `sudo apt install efibootmgr` or `sudo pacman -S efibootmgr`).
+## How It Works: Two Methods
 
-## How to Use
-1.  Open a terminal and navigate to this directory.
-2.  Make the script you want to use executable:
+There are two primary ways to reboot to UEFI from within Linux, and these scripts cover both:
+
+1.  **`systemctl` (for systemd users):** Most Modern Linux distributions Have systemd. (e.g debian, fedora ect) using the `systemd` init system have a built-in command for this. The `reboot_firmware_systemd.sh` script uses this native method.
+2.  **`efibootmgr` (for everyone else):** For systems that do not use `systemd` (like those running OpenRC, Runit, etc.), the `efibootmgr` utility can be used. This tool directly tells the UEFI firmware to boot into the setup menu on the next restart. All other scripts in this directory use this method.
+
+## Universal Requirements
+
+Before you begin, ensure your system meets these two conditions:
+
+1.  **UEFI Firmware:** Your computer must be using a modern UEFI firmware, not a legacy BIOS. If your computer reboots normally instead of entering setup, you likely have a BIOS system.
+2.  **Root/Sudo Privileges:** These commands require administrator access to work. The scripts will automatically ask for your `sudo` password if they are not run as root.
+
+---
+
+## Instructions by Distribution
+
+Find your distribution below to see which script is recommended for you.
+
+| Distribution | Default Init System | Recommended Script | Notes |
+| :--- | :--- | :--- | :--- |
+| **Debian** (10+) | `systemd` | `reboot_firmware_systemd.sh` | |
+| **Ubuntu** (all modern) | `systemd` | `reboot_firmware_systemd.sh` | |
+| **Fedora** | `systemd` | `reboot_firmware_systemd.sh` | |
+| **Arch Linux** | `systemd` | `reboot_firmware_systemd.sh` | |
+| **Artix Linux** | `OpenRC`, `Runit`, `s6` | `reboot_firmware_openrc.sh` (or Runit, etc.) | Uses `efibootmgr`. |
+| **Void Linux** | `Runit` | `reboot_firmware_runit.sh` | Uses `efibootmgr`. |
+| **Devuan** | `SysVinit`, `OpenRC` | `reboot_firmware_sysvinit.sh` | Uses `efibootmgr`. |
+| **Gentoo** | `OpenRC` (default) | `reboot_firmware_openrc.sh` | Uses `efibootmgr`. |
+
+**Don't see your distro?** You can check your init system by running `ps -p 1 -o comm=`. If the output is `systemd`, use the `systemd` script. If it's anything else (like `init`, `runit`, `openrc`), use one of the other scripts.
+
+---
+
+## Step-by-Step Usage
+
+1.  **Open your terminal.**
+
+2.  **Navigate** to this `reboot2uefi_linux` directory.
+
+3.  **Make the script executable.** You only need to do this once. Replace the filename with the one you chose from the table above.
     ```bash
-    chmod +x reboot_firmware_openrc.sh
+    chmod +x reboot_firmware_systemd.sh
     ```
-3.  Run the script:
+
+4.  **Run the script.**
     ```bash
-    ./reboot_firmware_openrc.sh
+    ./reboot_firmware_systemd.sh
     ```
-The script will ask for your `sudo` password if needed, then begin a 10-second countdown before rebooting.
+
+The script will prompt for your password, begin a 10-second countdown, and then reboot your machine into the UEFI firmware settings.
+
+## Troubleshooting
+
+*   **`Error: efibootmgr command not found`**: This means you are using a non-systemd script but don't have the required tool. You must install it using your distribution's package manager.
+    *   On Debian/Ubuntu/Devuan: `sudo apt install efibootmgr`
+    *   On Arch/Artix: `sudo pacman -S efibootmgr`
+    *   On Fedora: `sudo dnf install efibootmgr`
+    *   On Gentoo: `sudo emerge --ask sys-boot/efibootmgr`
+
+*   **`Permission denied`**: You forgot to make the script executable with the `chmod +x` command.
